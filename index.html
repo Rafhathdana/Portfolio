@@ -755,30 +755,25 @@ of each drug container to estimate the degradation of the drug.
             </div>
             <div class="col-12 col-md-6">
               <section class="section1 me-5">
-                <form
-                  action="https://script.google.com/macros/s/AKfycbxdZhHYPIudk9-72r0qHrZ_g5p_4qZsVJkJ2UHPhACCjU7QEZVYxCO_TdHuu-GwYR59/exec"
-                  method="POST"
-                  id="gform"
-                  style="width: 40%"
-                >
+                <form id="gform" name="gform" style="width: 40%">
                   <div class="form-group">
                     <label for="firstName"> First Name</label>
+                    <input type="text" id="firstName" name="firstName" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="contact">Mobile number </label>
                     <input
                       type="text"
-                      id="firstName"
-                      name="firstName"
-                      required
+                      id="contact"
+                      name="contact"
+                      placeholder="Type including Country Code"
                     />
                   </div>
 
                   <div class="form-group">
-                    <label for="latsName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required />
-                  </div>
-
-                  <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required />
+                    <input type="email" id="email" name="email" />
                   </div>
 
                   <div class="form-group">
@@ -788,11 +783,12 @@ of each drug container to estimate the degradation of the drug.
                       id="massage"
                       cols="30"
                       rows="10"
-                      required
                     ></textarea>
                   </div>
 
-                  <button type="submit">Submit</button>
+                  <button type="submit" name="submit" id="submit">
+                    Submit
+                  </button>
                 </form>
 
                 <div id="status"></div>
@@ -813,7 +809,44 @@ of each drug container to estimate the degradation of the drug.
         backSpeed: 40,
       });
     </script>
+    <script>
+      function validate() {
+        var fname = document.gform.firstName.value;
+        var contact = document.gform.contact.value;
+        var email = document.gform.email.value;
+        var message = document.gform.massage.value;
+        var nameformat = /^[a-zA-Z ]+$/;
 
+        if (fname.match(nameformat)) {
+        } else {
+          window.alert("Please enter your full name properly!");
+          document.gform.firstName.focus();
+          return false;
+        }
+        numbercheck = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+        if (contact.match(numbercheck)) {
+        } else {
+          window.alert("Enter your mobile number properly!");
+          document.gform.contact.focus();
+          return false;
+        }
+
+        var mailformat =
+          /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (email.match(mailformat)) {
+        } else {
+          alert("Invalid email address.");
+          document.gform.email.focus();
+          return false;
+        }
+        if (message == "") {
+          window.alert("Enter Message!");
+          document.gform.massage.focus();
+          return false;
+        }
+        return true;
+      }
+    </script>
     <!-- jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
@@ -833,56 +866,25 @@ of each drug container to estimate the degradation of the drug.
     </script>
 
     <script>
-      window.addEventListener("DOMContentLoaded", function () {
-        // get the form elements defined in your form HTML above
-
-        var form = document.getElementById("gform");
-        // var button = document.getElementById("my-form-button");
-        var status = document.getElementById("status");
-
-        // Success and Error functions for after the form is submitted
-
-        function success() {
-          form.reset();
-          status.classList.add("success");
-          alert("submited successfully!");
-          status.innerHTML = "Form submited success!";
-          window.location.reload();
+      $("#gform").submit((e) => {
+        e.preventDefault();
+        if (validate()) {
+          $.ajax({
+            url: "https://script.google.com/macros/s/AKfycbxdZhHYPIudk9-72r0qHrZ_g5p_4qZsVJkJ2UHPhACCjU7QEZVYxCO_TdHuu-GwYR59/exec",
+            data: $("#gform").serialize(),
+            method: "post",
+            success: function (response) {
+              alert("message successfully sended");
+              window.location.reload();
+            },
+            error: function (err) {
+              alert("something error");
+              status.classList.add("error");
+              status.innerHTML = "Oops! There was a problem.";
+            },
+          });
         }
-
-        function error() {
-          status.classList.add("error");
-          status.innerHTML = "Oops! There was a problem.";
-
-          alert("submited successfully!");
-          window.location.reload();
-        }
-
-        // handle the form submission event
-
-        form.addEventListener("submit", function (ev) {
-          ev.preventDefault();
-          var data = new FormData(form);
-          ajax(form.method, form.action, data, success, error);
-        });
       });
-
-      // helper function for sending an AJAX request
-
-      function ajax(method, url, data, success, error) {
-        var xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState !== XMLHttpRequest.DONE) return;
-          if (xhr.status === 200) {
-            success(xhr.response, xhr.responseType);
-          } else {
-            error(xhr.status, xhr.response, xhr.responseType);
-          }
-        };
-        xhr.send(data);
-      }
     </script>
   </body>
 

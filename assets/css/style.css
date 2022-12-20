@@ -702,17 +702,36 @@ small {
 
 .section1 {
   width: 100%;
-  display: flex;
-  align-items: end;
-  justify-content: start;
-  flex-direction: column;
-  position: absolute;
-  top: 20%;
+  top: 200px;
   right: 10%;
+  justify-content: center;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .section1 {
-    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .spit {
+    /* display: flex; */
+    /* flex-direction: column; */
+  }
+  .first {
+    align-items: center;
+    width: 100%;
+  }
+  .second {
+    width: 100%;
+  }
+}
+@media (min-width: 900px) {
+  .spit {
+    display: flex;
+  }
+  .first {
+    width: 35%;
+  }
+  .second {
+    width: 65%;
   }
 }
 .container1 {
@@ -730,9 +749,6 @@ small {
   margin-top: 20px;
   font-size: 20px;
 }
-.form-group input::placeholder {
-  font-size: 10px;
-}
 .form-group input,
 .form-group textarea {
   width: 100%;
@@ -741,7 +757,9 @@ small {
   border: 1px solid #009688;
   margin-top: 5px;
 }
-
+.form-group input::placeholder {
+  font-size: 10px;
+}
 textarea {
   resize: vertical;
 }

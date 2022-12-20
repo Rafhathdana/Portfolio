@@ -687,8 +687,8 @@ of each drug container to estimate the degradation of the drug.
       <section id="contact" class="section scrollspy full-height">
         <h3 class="page-title white-text teal">Contact</h3>
         <div class="container">
-          <div class="row">
-            <div class="col-12 col-sm-6">
+          <div class="row spit">
+            <div class="first col-sm-6">
               <p>
                 <a
                   aria-label="Call Rafhath"
@@ -753,12 +753,12 @@ of each drug container to estimate the degradation of the drug.
                 >
               </p>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="second col-md-6">
               <section class="section1 me-5">
-                <form id="gform" name="gform" style="width: 40%">
+                <form id="gform" name="gform">
                   <div class="form-group">
-                    <label for="firstName"> First Name</label>
-                    <input type="text" id="firstName" name="firstName" />
+                    <label for="fullName"> Full Name</label>
+                    <input type="text" id="fullName" name="fullName" />
                   </div>
 
                   <div class="form-group">
@@ -811,7 +811,7 @@ of each drug container to estimate the degradation of the drug.
     </script>
     <script>
       function validate() {
-        var fname = document.gform.firstName.value;
+        var fname = document.gform.fullName.value;
         var contact = document.gform.contact.value;
         var email = document.gform.email.value;
         var message = document.gform.massage.value;
@@ -820,7 +820,7 @@ of each drug container to estimate the degradation of the drug.
         if (fname.match(nameformat)) {
         } else {
           window.alert("Please enter your full name properly!");
-          document.gform.firstName.focus();
+          document.gform.fullName.focus();
           return false;
         }
         numbercheck = /^\+(?:[0-9] ?){6,14}[0-9]$/;
@@ -867,6 +867,7 @@ of each drug container to estimate the degradation of the drug.
 
     <script>
       $("#gform").submit((e) => {
+        document.getElementById("submit").innerHTML = "Please wait Processing";
         e.preventDefault();
         if (validate()) {
           $.ajax({
@@ -879,10 +880,10 @@ of each drug container to estimate the degradation of the drug.
             },
             error: function (err) {
               alert("something error");
-              status.classList.add("error");
-              status.innerHTML = "Oops! There was a problem.";
             },
           });
+        } else {
+          document.getElementById("submit").innerHTML = "Submit";
         }
       });
     </script>
